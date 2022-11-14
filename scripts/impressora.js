@@ -136,15 +136,15 @@ const init = async () => {
                         // Imprimir label
                         dymo.print(labelData.printer, label).then(async p => {
                             console.log('Imprimindo >', labelData);
-                            // const { participanteId, nome, pronome, linkedin, impressoes, evento } = doc.data();
+                            // const { participanteId, nome, pronome, linkedin, impressoes, evento, github } = doc.data();
 
                             if (evento) {
                                 // Salvar informacao de impressao no evento
-                                if (labelData.participanteId) {
+                                if (labelData.idPlayerEvent) {
                                     await firestore.collection('events')
                                         .doc(evento)
                                         .collection('participantes')
-                                        .doc(labelData.participanteId)
+                                        .doc(labelData.idPlayerEvent)
                                         .set({
                                             printed: true,
                                             impressoes: admin.firestore.FieldValue.increment(1),

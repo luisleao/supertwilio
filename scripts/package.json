@@ -1,0 +1,19 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "impressora.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dymojs": "1.2.0",
+    "firebase-admin": "11.2.1",
+    "fs": "0.0.1-security",
+    "twilio": "3.83.2",
+    "xml-js": "1.6.11"
+  }
+}

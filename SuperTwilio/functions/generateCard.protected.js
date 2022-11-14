@@ -16,7 +16,6 @@ const md5 = require('md5');
 exports.handler = async function(context, event, callback) {
     
     /*
-        photo (url)
         github
         gamer, geek, tech, arte, bizz (atributos)
     */
@@ -63,9 +62,8 @@ exports.handler = async function(context, event, callback) {
 
     }
     
-    
+    let participanteId = await md5(limpaNumero(event.From));
     let idPlayerEvent = await md5(`${event.evento}:${limpaNumero(event.From)}`);
-    // let networkedId = event.token.toLowerCase();
 
     let participanteExiste = await firestore.collection('events')
         .doc(event.evento).collection('participantes')
@@ -87,10 +85,13 @@ exports.handler = async function(context, event, callback) {
     await firestore.collection('events')
         .doc(event.evento).collection('participantes')
         .doc(idPlayerEvent).set({
-            github: event.github,
-            ...githubData,
+            github: {
+                username: event.github.toLowerCase(),
+                ...githubData
+            },
+            participanteId: participanteId,
+            phoneNumber: limpaNumero(event.From),
             createadAt: admin.firestore.FieldValue.serverTimestamp(),
-            photo: event.photo,
             multiplier: 1,
             gameAttributes: {
                 gamer: parseInt(event.gamer), 

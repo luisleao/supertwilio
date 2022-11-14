@@ -1,2 +1,6 @@
 .DS_Store
 SuperTwilio/assets/firebase-credentials.private.json
+
+node_modules
+firebase-credentials.json
+.env

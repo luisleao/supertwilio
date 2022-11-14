@@ -14,7 +14,7 @@ const md5 = require('md5');
 exports.handler = async function(context, event, callback) {
 
     let participanteId = await md5(limpaNumero(event.From));
-    let participanteIdEvento = await md5(`${event.evento}:${limpaNumero(event.From)}`);
+    let idPlayerEvent = await md5(`${event.evento}:${limpaNumero(event.From)}`);
 
     // let networkedId = event.token.toLowerCase();
 
@@ -22,19 +22,27 @@ exports.handler = async function(context, event, callback) {
     await firestore.collection('participantes')
         .doc(participanteId).set({
             phoneNumber: limpaNumero(event.From),
+            idPlayerEvent: idPlayerEvent,
             profileName: event.profileName || '',
             ultimoEvento: event.evento,
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         }, { merge: true });
     
+    let participante = await firestore.collection('participantes')
+        .doc(participanteId).get().then(async s => {
+        return s.data();
+    });
 
     let participanteExiste = await firestore.collection('events')
         .doc(event.evento).collection('participantes')
-        .doc(participanteIdEvento).get().then(async s => {
+        .doc(idPlayerEvent).get().then(async s => {
         return s.exists;
     });
 
-    callback(null, participanteExiste);
+    callback(null, {
+        hasCard: participanteExiste,
+        isAdmin: participante.isAdmin
+    });
 
 };
 
