@@ -23,7 +23,7 @@ exports.handler = async function(context, event, callback) {
     // Criar jogo
     // To
     // From
-    // opponent: Body - ID em MD5
+    // opponent: Body - ID em MD5+salt
     // evento
 
     let idPlayerEvent = await md5(`${event.evento}:${limpaNumero(event.From)}`);
@@ -96,9 +96,6 @@ exports.handler = async function(context, event, callback) {
     let opponentPoints = 0;
     let result = '';
 
-    
-    // TODO: incluir cálculo do multiplier
-
     // Pontuar ganhador
         // EMPATE: 1 ponto
         // VENCER: 2 pontos
@@ -113,18 +110,6 @@ exports.handler = async function(context, event, callback) {
         result = playerData.gameAttributes[chosenAttribute] > opponentData.gameAttributes[chosenAttribute] ? 'PLAYER' : 'OPPONENT';
     }
 
-
-    // await firestore.collection('events').doc(event.evento).collection('matches')
-    //     .add({
-    //         players: `${idPlayerEvent}_${idOpponent}`,
-    //         createdAt: admin.firestore.FieldValue.serverTimestamp(),
-    //         attribute: chosenAttribute,
-    //         playerValue: playerData.gameAttributes[chosenAttribute],
-    //         opponentValue: opponentData.gameAttributes[chosenAttribute],
-    //         result: result,
-    //         playerPoints,
-    //         opponentPoints
-    //     });
 
     const batch = firestore.batch();
 

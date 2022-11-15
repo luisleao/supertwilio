@@ -4,3 +4,4 @@ SuperTwilio/assets/firebase-credentials.private.json
 node_modules
 firebase-credentials.json
 .env
+functions/assets/firebase-credentials.private.json
